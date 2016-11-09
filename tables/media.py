@@ -8,3 +8,4 @@ class Media(models.Model):
     owner = models.ForeignKey(User)
     width = models.IntegerField()
     height = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
