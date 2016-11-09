@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-import settings_secret as S
+import pixation.settings_secret as S
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -76,10 +76,10 @@ WSGI_APPLICATION = 'pixation.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': S.DATABASE.NAME,
-        'USER': S.DATABASE.USER,
-        'PASSWORD': S.DATABASE.PASSWORD
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': S.DATABASE['NAME'],
+        'USER': S.DATABASE['USER'],
+        'PASSWORD': S.DATABASE['PASSWORD'],
     }
 }
 
