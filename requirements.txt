@@ -4,7 +4,6 @@ decorator==4.0.10
 defusedxml==0.4.1
 Django==1.10.3
 django-allauth==0.28.0
-django-crispy-forms==1.6.1
 django-filter==0.15.3
 djangorestframework==3.5.3
 isort==4.2.5
