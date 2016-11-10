@@ -28,7 +28,13 @@ def login_view(request):
 def register_view(request):
     title = "Register"
     register_form = UserRegisterForm(request.POST or None)
-
+    if register_form.is_valid():
+        user = register_form.save(commit=False)
+        password = register_form.cleaned_data.get("password")
+        user.set_password(password)
+        user.save()
+        new_user = authenticate(username=user.username, password=password)
+        login(request, new_user)
     return render(request, "form.html", {"form":register_form,"title":title})
 
 def logout_view(request):
