@@ -5,7 +5,6 @@ from accounts.views import (
     logout_view,
 )
 
-
 urlpatterns = [
     url(r'^login', login_view, name="login"),
     url(r'^register', register_view, name="register"),
