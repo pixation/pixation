@@ -38,13 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tables',
     'django.contrib.sites',
+    # Third Party Apps
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
-    'frontend'
+    'rest_framework'
+    # Custom Built Apps
+    'tables',
+    'backend',
+    'frontend',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +144,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 1
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR,'..','media')
