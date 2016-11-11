@@ -1,0 +1,10 @@
+{% extends 'base/master.html' %}
+{% block content %}
+{% load account %}
+
+{% user_display user %}
+{{ user_display }} has logged in...
+<div ng-controller="dashboardController">
+    <div ng-bind="test"></div>
+</div>
+{% endblock %}
