@@ -1,0 +1,1 @@
+angular.module('pixation', ['pixation.controllers', 'pixation.services']);
