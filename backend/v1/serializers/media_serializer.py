@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from tables.media import Media
 
-class MediaSerializer(serializers.ModelSerializer):
+class MediaUploadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Media
         fields = (
