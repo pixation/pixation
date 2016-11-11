@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from tables.media import Media
 
-class MediaUploadSerializer(serializers.ModelSerializer):
+class MediaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Media
         fields = (
@@ -9,3 +9,4 @@ class MediaUploadSerializer(serializers.ModelSerializer):
             'image',
             'display_name',
         )
+        
