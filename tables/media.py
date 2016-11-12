@@ -13,3 +13,4 @@ class Media(models.Model):
     height = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to=create_unique_filename,width_field='width', height_field='height')
+    public = models.BooleanField()
