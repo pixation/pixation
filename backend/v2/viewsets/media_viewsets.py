@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets, filters
 from rest_framework.response import Response
 
-from backend.v1.serializers.media_serializer import *
+from backend.v2.serializers.media_serializer import *
 from tables.media import Media
 
 

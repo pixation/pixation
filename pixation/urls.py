@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'', include('frontend.urls')),
     url(r'^admin/',  admin.site.urls),
     url(r'', include('allauth.urls')),
-    url(r'^api/', include('backend.v1.urls', namespace='api'))
+    url(r'^api/', include('backend.urls', namespace='api')),
+
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

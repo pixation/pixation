@@ -3,25 +3,35 @@ from django.conf.urls import url, include
 from rest_framework import routers
 
 from backend.v1.viewsets.media_viewsets import *
+from backend.v1.viewsets.developer_viewsets import *
 
 
 images_router = routers.DefaultRouter()
 images_router.register(
     'upload', 
     MediaUploadViewSet, 
-    'images/upload'
+    'v1 Upload Image'
     )
 images_router.register(
     'getPublicFeed', 
     MediaPublicFeedViewSet, 
-    'images/getPublicFeed'
+    'v1 Public Feed'
     )
 images_router.register(
     'getUserFeed', 
     MediaUserFeedViewSet, 
-    'images/getUserFeed'
+    'v1 User Feed'
     )
 
+
+developer_router = routers.DefaultRouter()
+developer_router.register(
+    'makeDeveloper',
+    DeveloperViewSet,
+    'v1 Developer Set'
+)
+
 urlpatterns = [
-    url(r'^v1/images/', include(images_router.urls)),
+    url(r'^images/', include(images_router.urls)),
+    url(r'^developer/',include(developer_router.urls)),
 ]
