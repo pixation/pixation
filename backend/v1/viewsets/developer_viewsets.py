@@ -8,10 +8,10 @@ from backend.v1.serializers.developer_serializer import *
 from tables.developer import Developer
 
 
-class DeveloperViewSet(viewsets.ModelViewSet):
+class MakeDeveloperViewSet(viewsets.ModelViewSet):
     queryset = Developer.objects.all()
     serializer_class = DeveloperSerializer
-    
+    http_method_names = ['get','post','delete']
     def create(self, serializer):
         if self.request.user.is_authenticated():
             if not Developer.objects.filter(user = self.request.user):
@@ -30,5 +30,3 @@ class DeveloperViewSet(viewsets.ModelViewSet):
                     "Error":"Unauthorized",
                 }
             )
-    
-    
