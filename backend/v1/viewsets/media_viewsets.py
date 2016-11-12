@@ -1,9 +1,8 @@
-from rest_framework import viewsets, filters
-from rest_framework.response import Response
-from rest_framework.decorators import detail_route, list_route
-
 from django.http import *
 from django.contrib.auth.models import User
+
+from rest_framework import viewsets, filters
+from rest_framework.response import Response
 
 from backend.v1.serializers.media_serializer import *
 from tables.media import Media

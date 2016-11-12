@@ -1,27 +1,27 @@
 from django.conf.urls import url, include
+
 from rest_framework import routers
+
 from backend.v1.viewsets.media_viewsets import *
 
-router = routers.DefaultRouter()
 
-router.register(
-    'images/upload', 
+images_router = routers.DefaultRouter()
+images_router.register(
+    'upload', 
     MediaUploadViewSet, 
     'images/upload'
     )
-
-router.register(
-    'images/getPublicFeed', 
+images_router.register(
+    'getPublicFeed', 
     MediaPublicFeedViewSet, 
     'images/getPublicFeed'
     )
-
-router.register(
-    'images/getUserFeed', 
+images_router.register(
+    'getUserFeed', 
     MediaUserFeedViewSet, 
     'images/getUserFeed'
     )
 
 urlpatterns = [
-    url(r'^v1/', include(router.urls)),
+    url(r'^v1/images/', include(images_router.urls)),
 ]
