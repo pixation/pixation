@@ -14,6 +14,30 @@ angular.module('pixation.services', [])
             }
         }
     }])
+    .factory('upload', ["$location", "$http", "$log", "$q", function ($location, $http, $log, $q) {
+        return {
+            uploadImage: function (imageData) {
+                var deferred = $q.defer();
+                var urlToUse = baseUrl + '/api/v1/images/upload/';
+                console.log($http);
+                console.log(urlToUse);
+                console.log(imageData);
+                var fd = new FormData();
+                fd.append('image', imageData.image);
+                fd.append('public', imageData.public);
+                fd.append('display_name', imageData.display_name);
+                $http.post(urlToUse, fd, {
+                    transformRequest: angular.identity,
+                    headers: {'Content-Type': undefined}
+                }).success(function (data) {
+                    deferred.resolve(data);
+                }).error(function (data) {
+                    deferred.reject();
+                });
+                return deferred.promise;
+            }
+        }
+    }])
     .factory('user', ["$location", "$http", "$log", "$q", function ($location, $http, $log, $q) {
         return {
             getUserDashboardImages: function () {
@@ -53,4 +77,3 @@ angular.module('pixation.services', [])
         }
 
     }]);
-;
