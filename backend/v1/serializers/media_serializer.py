@@ -15,15 +15,20 @@ class MediaPublicFeedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Media
         fields = (
+            'pk',
             'image',
             'display_name',
             'owner',
         )
+        read_only_fields = fields
+        extra_kwargs={'owner_name':''}    
 
 class MediaUserFeedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Media
         fields = (
+            'pk',
             'image',
             'display_name',
         )
+        read_only_fields = fields

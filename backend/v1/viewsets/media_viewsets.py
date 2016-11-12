@@ -1,36 +1,62 @@
 from rest_framework import viewsets, filters
+from rest_framework.response import Response
+from rest_framework.decorators import detail_route, list_route
+
+from django.http import *
+from django.contrib.auth.models import User
+
 from backend.v1.serializers.media_serializer import *
 from tables.media import Media
-from rest_framework.response import Response
-from django.http import *
+
 
 class MediaUploadViewSet(viewsets.ModelViewSet):
     queryset = Media.objects.all()
     serializer_class = MediaUploadSerializer
+    http_method_names = ['post',] 
+    print(queryset[0].image)
     def perform_create(self, serializer):
         serializer.save(owner = self.request.user)
     
+
 class MediaPublicFeedViewSet(viewsets.ModelViewSet):
     queryset = Media.objects.all()
     serializer_class = MediaPublicFeedSerializer
+    http_method_names = ['get']
+    
     def list(self, request):
-        if "n" in self.request.query_params:
-            queryset = Media.objects.filter(public=1)[:int(self.request.query_params["n"][0])]
+        query_params = self.request.query_params
+        if 'n' in query_params:
+            n = int(query_params['n'][0])
         else:
-            queryset = Media.objects.filter(public=1)[:10]
-        serializer = MediaPublicFeedSerializer(queryset, many=True)
+            n = 10
+        queryset = Media.objects.filter(public=1)[:n]
+        serializer = MediaPublicFeedSerializer(
+            queryset, 
+            many=True,
+            context={'request': request}
+            )
         return Response(serializer.data)
-        
+      
+
 class MediaUserFeedViewSet(viewsets.ModelViewSet):
     queryset = Media.objects.all()
     serializer_class = MediaUserFeedSerializer
+    http_method_names = ['get']
+
     def list(self, request):
         if self.request.user.is_authenticated:
-            if "n" in self.request.query_params:
-                queryset = Media.objects.filter(owner=self.request.user)[:int(self.request.query_params["n"][0])]
+            query_params = self.request.query_params
+            if 'n' in query_params:
+                n = int(query_params['n'][0])
             else:
-                queryset = Media.objects.filter(owner=self.request.user)[:10]
-            serializer = MediaUserFeedSerializer(queryset, many=True)
+                n = 10
+            user = self.request.user
+            queryset = Media.objects.filter(owner=user)[:n]
+            serializer = MediaUserFeedSerializer(
+                queryset, 
+                many=True,
+                context={'request': request}
+                )
             return Response(serializer.data)
         else:
             return HttpResponse(status=401)
