@@ -5,4 +5,10 @@ def dashboard(request):
     if request.user.is_authenticated():
         return render(request, 'dashboard.html')
     else:
-        return redirect('/login')
+        return redirect('/login?next=/dashboard')
+
+def upload(request):
+    if request.user.is_authenticated():
+        return render(request, 'upload.html')
+    else:
+        return redirect('/login?next=/upload')

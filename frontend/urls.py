@@ -19,4 +19,5 @@ from frontend import views
 
 urlpatterns = [
     url(r'^dashboard', views.dashboard),
+    url(r'^upload', views.upload)
 ]
