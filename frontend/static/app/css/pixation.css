@@ -1,0 +1,10 @@
+#header {
+  height: 60px;
+}
+#branding {
+  margin-top: 5px;
+}
+a:link, a:visited {
+    color: white;
+    text-decoration: none;
+}

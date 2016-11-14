@@ -7,15 +7,18 @@ angular.module('pixation.controllers', ['pixation.services'])
         $scope.userImages = [];
         $scope.showMoreUser = function() {
           dashboard.getUserFeed($scope.pageUser).then(function (data) {
-                  $scope.userImages.push(data.data);
+                  $scope.userImages.push(...data.results);
                   $scope.pageUser++;
+                  console.log(data.results);
               }
           );
         };
         $scope.showMorePublic = function() {
           dashboard.getPublicFeed($scope.pagePublic).then(function (data) {
-                  $scope.publicImages.push(data.data);
+                  $scope.publicImages.push(...data.results);
                   $scope.pagePublic++;
+                  console.log(data.results);
+
               }
           );
         };

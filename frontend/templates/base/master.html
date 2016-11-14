@@ -4,6 +4,7 @@
     <title>Django</title>
     <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}" />
     <link rel="stylesheet" href="{% static 'app/css/pixation.css' %}">
     <script>
         var baseUrl = 'http://{{request.get_host}}';
@@ -13,8 +14,32 @@
     <script src="{% static 'app/js/controllers.js' %}"></script>
     <script src="{% static 'app/js/app.js' %}"></script>
 </head>
+
+{% load account %}
+
 <body ng-app="pixation">
+  <div id="header">
+        <div id="branding">
+          {% if user.is_authenticated %}
+            <h1 id="site-name"><a href="http://{{request.get_host}}/dashboard">Pixation</a></h1>
+            {% else %}
+            <h1 id="site-name"><a href="http://{{request.get_host}}/">Pixation</a></h1>
+            {% endif %}
+
+        </div>
+        <div id="user-tools">
+          {% if user.is_authenticated %}
+          Welcome,
+          <strong>{{ user.username }}</strong>.
+          <a href="http://{{request.get_host}}/password/change">Change password</a> /
+          <a href="http://{{request.get_host}}/logout">Log out</a>
+          {% else %}
+          <a href="http://{{request.get_host}}/login">Login</a>
+          {% endif %}
+        </div>
+    </div>
 <div class="container">
+
     {% block content %}
     {% endblock %}
 </div>
