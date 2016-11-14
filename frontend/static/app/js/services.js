@@ -1,9 +1,9 @@
 angular.module('pixation.services', [])
     .factory('dashboard', ["$location", "$http", "$log", "$q", function ($location, $http, $log, $q) {
         return {
-            getUserDashboardImages: function () {
+            getUserFeed: function (page) {
                 var deferred = $q.defer();
-                var urlToUse = baseUrl + '/api/v1/getUserDashboardImages';
+                var urlToUse = baseUrl + '/api/v1/images/getUserFeed/';
                 console.log(urlToUse);
                 $http.get(urlToUse).success(function (data) {
                     deferred.resolve(data);
@@ -11,6 +11,17 @@ angular.module('pixation.services', [])
                     deferred.reject();
                 });
                 return deferred.promise;
+            },
+            getPublicFeed: function(page) {
+              var deferred = $q.defer();
+              var urlToUse = baseUrl + '/api/v1/images/getPublicFeed/';
+              console.log(urlToUse);
+              $http.get(urlToUse).success(function (data) {
+                  deferred.resolve(data);
+              }).error(function (data) {
+                  deferred.reject();
+              });
+              return deferred.promise;
             }
         }
     }])
