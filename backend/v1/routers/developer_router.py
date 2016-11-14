@@ -11,5 +11,10 @@ developer_router.register(
 developer_router.register(
     'makekey',
     APIManagementViewSet,
-    'v1 API Management',
+    'v1 API Management make key',
+)
+developer_router.register(
+    'getkeys',
+    APIManagementGetViewSet,
+    'v1 API Management get keys',
 )
