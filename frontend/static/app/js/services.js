@@ -94,7 +94,7 @@ angular.module('pixation.services', [])
                 var deferred = $q.defer();
                 var urlToUse = baseUrl + '/api/v1/resize';
                 console.log(data);
-                $http.get(urlToUse, data).success(function (data) {
+                $http.post(urlToUse, data).success(function (data) {
                     deferred.resolve(data);
                 }).error(function (data) {
                     deferred.reject();
@@ -105,7 +105,7 @@ angular.module('pixation.services', [])
                 var deferred = $q.defer();
                 var urlToUse = baseUrl + '/api/v1/remove';
                 console.log(data);
-                $http.get(urlToUse, data).success(function (data) {
+                $http.post(urlToUse, data).success(function (data) {
                     deferred.resolve(data);
                 }).error(function (data) {
                     deferred.reject();
