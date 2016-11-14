@@ -29,8 +29,15 @@ class APIManagementSerializer(serializers.ModelSerializer):
             'sources'
         )
 
+    def create(self, validated_data):
+        sources_data = validated_data.pop('sources')
+        api_management = APIManagement.objects.create(**sources_data)
+        for source_data in sources_data:
+            Source.objects.create(api_management=api_management, **source_data)
+        return api_management
+
 class DeveloperSerializer(serializers.ModelSerializer):
-    api_management = APIManagementSerializer(many=True)
+    # api_management = APIManagementSerializer(many=True)
     developer_name = serializers.StringRelatedField(
         many=False,
         source='user.username',    
@@ -39,5 +46,5 @@ class DeveloperSerializer(serializers.ModelSerializer):
         model = Developer
         fields = (
             'developer_name',
-            'api_management'
+            # 'api_management'
         )
