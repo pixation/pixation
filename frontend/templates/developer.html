@@ -1,0 +1,34 @@
+{% extends 'base/master.html' %}
+{% block content %}
+<div ng-controller="developerController">
+    <h2>Developer Console</h2>
+    {% if user.is_authenticated %}
+      {% if not user.developer %}
+      <h2>Not Yet a Developer? Become One!</h2>
+      <div class="modal" style="display: block; position: static;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="box-shadow: none;">
+      <div class="modal-header">
+        <h4 class="modal-title">Click Confirm to Become a Developer!</h4>
+      </div>
+      <div class="modal-body">
+        <p>Developer comes with API privileges</p>
+      </div>
+      <div class="modal-footer">
+        <a href="http://{{request.get_host}}/dashboard" class="btn btn-warning" data-dismiss="modal">Back</a>
+        <button type="button" class="btn btn-primary" ng-click="becomeDeveloper()">Confirm</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+      {% else %}
+      <div class="form-group">
+        <a href="http://{{request.get_host}}/developer" class="btn btn-primary">Developer Console</a>
+      </div>
+      {% endif %}
+    {% endif %}
+
+
+
+</div>
+{% endblock %}

@@ -11,6 +11,12 @@ def dashboard(request):
     else:
         return redirect('/login?next=/dashboard')
 
+def developer(request):
+    if request.user.is_authenticated():
+        return render(request, 'developer.html')
+    else:
+        return redirect('/login?next=/developer')
+
 def upload(request):
     if request.user.is_authenticated():
         return render(request, 'upload.html')
