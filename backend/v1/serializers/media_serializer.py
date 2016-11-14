@@ -21,3 +21,17 @@ class MediaSerializer(serializers.ModelSerializer):
             'owner_name',
             'public',
         )
+
+class MediaResizeSerializer(serializers.ModelSerializer):
+    link = serializers.ReadOnlyField(source='get_link')
+    image_name = serializers.CharField()
+    new_height = serializers.IntegerField()
+    new_width = serializers.IntegerField()
+    class Meta:
+        model = Media
+        fields = (
+            'link',
+            'image_name',
+            'new_height',
+            'new_width'
+        )

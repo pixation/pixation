@@ -18,3 +18,8 @@ media_router.register(
     MediaUserFeedViewSet, 
     'v1 User Feed'
     )
+media_router.register(
+    'resizeImage', 
+    MediaResizeViewSet, 
+    'v1 Resize Image'
+    )
