@@ -22,13 +22,16 @@ class MediaPublicFeedViewSet(viewsets.ModelViewSet):
     serializer_class = MediaPublicFeedSerializer
     http_method_names = ['get']
     
-    def list(self, request):
-        query_params = self.request.query_params
-        if 'n' in query_params:
-            n = int(query_params['n'][0])
-        else:
-            n = 10
-        queryset = Media.objects.filter(public=1)[:n]
+    def list(self, request):        
+        queryset = Media.objects.filter(public=1)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = MediaPublicFeedSerializer(
+            page, 
+            many=True,
+            context={'request': request}
+            )
+            return self.get_paginated_response(serializer.data)
         serializer = MediaPublicFeedSerializer(
             queryset, 
             many=True,
@@ -41,21 +44,23 @@ class MediaUserFeedViewSet(viewsets.ModelViewSet):
     queryset = Media.objects.all()
     serializer_class = MediaUserFeedSerializer
     http_method_names = ['get']
-
     def list(self, request):
         if self.request.user.is_authenticated:
-            query_params = self.request.query_params
-            if 'n' in query_params:
-                n = int(query_params['n'][0])
-            else:
-                n = 10
             user = self.request.user
-            queryset = Media.objects.filter(owner=user)[:n]
+            queryset = Media.objects.filter(owner=user)
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = MediaUserFeedSerializer(
+                    page, 
+                    many=True,
+                    context={'request': request}
+                    )
+                return Response(serializer.data)
             serializer = MediaUserFeedSerializer(
-                queryset, 
-                many=True,
-                context={'request': request}
-                )
+                    queryset, 
+                    many=True,
+                    context={'request': request}
+                    )
             return Response(serializer.data)
         else:
             return HttpResponse(status=401)
