@@ -61,6 +61,50 @@ angular.module('pixation.services', [])
                   deferred.reject();
               });
               return deferred.promise;
+            },
+            addKey: function (data) {
+              var deferred = $q.defer();
+              var urlToUse = baseUrl + '/api/v1/developer/makeDeveloper/';
+              console.log(urlToUse);
+              $http.post(urlToUse).success(function (data) {
+                  deferred.resolve(data);
+              }).error(function (data) {
+                  deferred.reject();
+              });
+              return deferred.promise;
+            },
+            refreshKey: function (data) {
+              var deferred = $q.defer();
+              var urlToUse = baseUrl + '/api/v1/developer/makeDeveloper/';
+              console.log(urlToUse);
+              $http.post(urlToUse).success(function (data) {
+                  deferred.resolve(data);
+              }).error(function (data) {
+                  deferred.reject();
+              });
+              return deferred.promise;
+            },
+            deleteKey: function (data) {
+              var deferred = $q.defer();
+              var urlToUse = baseUrl + '/api/v1/developer/makeDeveloper/';
+              console.log(urlToUse);
+              $http.post(urlToUse).success(function (data) {
+                  deferred.resolve(data);
+              }).error(function (data) {
+                  deferred.reject();
+              });
+              return deferred.promise;
+            },
+            modifySources: function (data) {
+              var deferred = $q.defer();
+              var urlToUse = baseUrl + '/api/v1/developer/makeDeveloper/';
+              console.log(urlToUse);
+              $http.post(urlToUse).success(function (data) {
+                  deferred.resolve(data);
+              }).error(function (data) {
+                  deferred.reject();
+              });
+              return deferred.promise;
             }
         }
 

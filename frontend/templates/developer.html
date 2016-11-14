@@ -23,8 +23,41 @@
 </div><!-- /.modal -->
       {% else %}
       <div class="form-group">
-        <a href="http://{{request.get_host}}/developer" class="btn btn-primary">Developer Console</a>
+        <a href="http://{{request.get_host}}/create-api-key" class="btn btn-success">Create New API Key</a>
       </div>
+      <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>API Key</th>
+        <th>Sources</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>John</td>
+        <td>Doe</td>
+        <td><button type="button" name="button" class="btn btn-warning">Refresh</button></td>
+
+        <td><button type="button" name="button" class="btn btn-danger">Delete</button></td>
+      </tr>
+      <tr>
+        <td>Mary</td>
+        <td>Moe</td>
+        <td><button type="button" name="button" class="btn btn-warning">Refresh</button></td>
+
+        <td><button type="button" name="button" class="btn btn-danger">Delete</button></td>
+      </tr>
+      <tr>
+        <td>July</td>
+        <td>Dooley</td>
+        <td><button type="button" name="button" class="btn btn-warning">Refresh</button></td>
+
+        <td><button type="button" name="button" class="btn btn-danger">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
       {% endif %}
     {% endif %}
 
