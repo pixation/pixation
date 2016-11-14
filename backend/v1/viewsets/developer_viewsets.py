@@ -35,7 +35,7 @@ class MakeDeveloperViewSet(viewsets.ModelViewSet):
 class APIManagementViewSet(viewsets.ModelViewSet):
     queryset = APIManagement.objects.all()
     serializer_class = APIManagementSerializer
-    http_method_names = ['get','post','delete']
+    http_method_names = ['post']
     
     def perform_create(self, serializer):
         if self.request.user.is_authenticated():
@@ -61,3 +61,29 @@ class APIManagementViewSet(viewsets.ModelViewSet):
                 }
             )
 
+class APIManagementGetViewSet(viewsets.ModelViewSet):
+    queryset = APIManagement.objects.all()
+    serializer_class = APIManagementSerializer
+    http_method_names = ['get']
+
+    def list(self,request):
+        if self.request.user.is_authenticated:
+            developer = Developer.objects.filter(user=self.request.user)[0]
+            if developer is not None:
+                queryset = APIManagement.objects.filter(developer=developer)
+                page = self.paginate_queryset(queryset)
+                if page is not None:
+                    serializer = APIManagementSerializer(
+                        page,
+                        many=True,
+                        context={'request':request}
+                    )
+                    return self.get_paginated_response(serializer.data)
+                serializer=APIManagementSerializer(
+                    queryset,
+                    many=True,
+                    context={'request':request}
+                )
+                return Response(serializer.data)
+            else:
+                return HttpResponse(status=401)   
