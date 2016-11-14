@@ -1,12 +1,6 @@
 {% extends 'base/master.html' %}
 {% block content %}
-{% load account %}
 
-{% if user.is_authenticated %}
-<p>Welcome, {{ user.first_name }}. Thanks for logging in.</p>
-{% else %}
-<p>Welcome, new user. Please log in.</p>
-{% endif %}
 <div ng-controller="imageController">
   <h2>Image</h2>
   <div class="row">

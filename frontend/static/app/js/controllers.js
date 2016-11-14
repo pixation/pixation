@@ -43,6 +43,22 @@ $scope.showMorePublic();
 console.log(baseUrl);
 
 }])
+.controller('developerController', ["$scope", "developer", function ($scope, developer) {
+  $scope.userImages = [];
+
+  $scope.model = {public: false};
+  $scope.becomeDeveloper = function () {
+    developer.becomeDeveloper().then(function (data) {
+      if (data.developer_name != null)
+        window.location.reload()
+      console.log(data);
+    }
+  );
+};
+
+console.log(baseUrl);
+
+}])
 .controller('imageController', ['$scope', 'image', function($scope, imageService) {
   $scope.errorMessage = "Error Input!";
   $scope.error = false;

@@ -8,3 +8,13 @@ a:link, a:visited {
     color: white;
     text-decoration: none;
 }
+.btn {
+padding: 10px 15px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+.btn-primary {
+  color: #fff;
+  background: #79aec8;
+}

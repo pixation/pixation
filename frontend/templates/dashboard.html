@@ -2,6 +2,20 @@
 {% block content %}
 <div ng-controller="dashboardController">
     <h2>User Dashboard</h2>
+    {% if user.is_authenticated %}
+      {% if not user.developer %}
+
+        <div class="form-group">
+          <a href="http://{{request.get_host}}/developer" class="btn btn-primary">Become a Developer</a>
+        </div>
+      {% else %}
+      <div class="form-group">
+        <a href="http://{{request.get_host}}/developer" class="btn btn-primary">Developer Console</a>
+      </div>
+      {% endif %}
+    {% endif %}
+
+
     <div class="form-group">
         <a href="http://{{request.get_host}}/upload" class="btn btn-success">Upload Pix</a>
     </div>
