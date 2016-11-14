@@ -25,9 +25,9 @@ class MediaResizeViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         request = self.request
-        width = request.GET['width']
-        height = request.GET['height']
-        img =  request.GET['image']
+        width = request.POST['width']
+        height = request.POST['height']
+        img =  request.POST['image']
         ext = img.split('.')[-1]
         if request.user.is_authenticated:
             username = request.user.username

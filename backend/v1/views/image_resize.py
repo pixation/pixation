@@ -11,9 +11,9 @@ from django.conf import settings
 from tables.media import Media
 from django.core.files import File
 def image_resize(request):
-    width = request.GET['width']
-    height = request.GET['height']
-    img =  request.GET['image']
+    width = request.POST['width']
+    height = request.POST['height']
+    img =  request.POST['image']
     ext = img.split('.')[-1]
     if request.user.is_authenticated:
         username = request.user.username
@@ -26,7 +26,6 @@ def image_resize(request):
             image.save(os.path.join(settings.MEDIA_ROOT,filename))
             reopen = open(os.path.join(settings.MEDIA_ROOT,filename),'r')
             django_file = File(reopen)
-
             media = Media()
             media.display_name = query.display_name + ' Resized'
             media.owner = query.owner
