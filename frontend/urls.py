@@ -19,5 +19,6 @@ from frontend import views
 
 urlpatterns = [
     url(r'^dashboard', views.dashboard),
-    url(r'^upload', views.upload)
+    url(r'^upload', views.upload),
+    url(r'^images/(?P<username>\w+)/(?P<img>\w+)', views.image)
 ]

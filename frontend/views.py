@@ -12,3 +12,10 @@ def upload(request):
         return render(request, 'upload.html')
     else:
         return redirect('/login?next=/upload')
+
+def image(request, username, img):
+    if request.user.is_authenticated():
+        # TODO Get Data
+        return render(request, 'image.html', context={'a':123})
+    else:
+        return redirect('/login?next=/upload')
