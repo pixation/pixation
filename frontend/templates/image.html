@@ -1,0 +1,21 @@
+{% extends 'base/master.html' %}
+{% block content %}
+{% load account %}
+
+{% if user.is_authenticated %}
+<p>Welcome, {{ user.first_name }}. Thanks for logging in.</p>
+{% else %}
+<p>Welcome, new user. Please log in.</p>
+{% endif %}
+<div ng-controller="imageController">
+    <h2>Image</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <img class="img-responsive" src="https://urukrama.files.wordpress.com/2008/07/awesome-red01.png" alt="Test" />
+      </div>
+      <div class="col-md-6">
+        {{a}}
+      </div>
+    </div>
+</div>
+{% endblock %}
