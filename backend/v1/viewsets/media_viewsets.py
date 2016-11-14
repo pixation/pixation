@@ -25,6 +25,7 @@ class MediaPublicFeedViewSet(viewsets.ModelViewSet):
     def list(self, request):        
         queryset = Media.objects.filter(public=1)
         page = self.paginate_queryset(queryset)
+        
         if page is not None:
             serializer = MediaSerializer(
             page, 
@@ -32,6 +33,7 @@ class MediaPublicFeedViewSet(viewsets.ModelViewSet):
             context={'request': request}
             )
             return self.get_paginated_response(serializer.data)
+        
         serializer = MediaSerializer(
             queryset, 
             many=True,
@@ -55,13 +57,15 @@ class MediaUserFeedViewSet(viewsets.ModelViewSet):
                     many=True,
                     context={'request': request}
                     )
-                return Response(serializer.data)
+                return self.get_paginated_response(serializer.data)
+            
             serializer = MediaSerializer(
                     queryset, 
                     many=True,
                     context={'request': request}
                     )
             return Response(serializer.data)
+        
         else:
             return HttpResponse(status=401)
     
