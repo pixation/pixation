@@ -87,4 +87,20 @@ angular.module('pixation.services', [])
             }
         }
 
+    }])
+    .factory('image', ["$location", "$http", "$log", "$q", function ($location, $http, $log, $q) {
+        return {
+            imageAPI: function (data) {
+                var deferred = $q.defer();
+                var urlToUse = baseUrl + '/api/v1/getUserDashboardImages';
+                console.log(data);
+                $http.get(urlToUse, data).success(function (data) {
+                    deferred.resolve(data);
+                }).error(function (data) {
+                    deferred.reject();
+                });
+                return deferred.promise;
+            }
+        }
+
     }]);
