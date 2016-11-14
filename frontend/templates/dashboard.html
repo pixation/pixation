@@ -17,10 +17,15 @@
         <div class="col-sm-3" ng-repeat="userImage in userImages">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Panel title</h3>
+                  <h3 class="panel-title" ng-bind="userImage.display_name"></h3>
                 </div>
                 <div class="panel-body">
-                    Panel content
+                  {% verbatim %}
+                  <a href="#" ng-href="{{userImage.image}}">
+                    <img ng-src="{{userImage.image}}" class="img img-responsive" alt="" />
+                  </a>
+                    {% endverbatim %}
+
                 </div>
             </div>
         </div>
@@ -28,14 +33,18 @@
 
     <h3>Public Pictures</h3>
     <div class="row">
-        <div class="col-sm-3" ng-repeat="userImage in publicImages">
+        <div class="col-sm-3" ng-repeat="publicImage in publicImages">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Panel title</h3>
+                    <h3 class="panel-title" ng-bind="publicImage.display_name"></h3>
                 </div>
                 <div class="panel-body">
-                    Panel content
-                </div>
+                  {% verbatim %}
+                  <a href="#" ng-href="{{publicImage.image}}">
+                    <img ng-src="{{publicImage.image}}" class="img img-responsive" alt="" />
+                  </a>
+                    {% endverbatim %}
+                  </div>
             </div>
         </div>
 
