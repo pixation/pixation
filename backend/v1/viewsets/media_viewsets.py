@@ -18,39 +18,6 @@ class MediaUploadViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner = self.request.user)
 
-class MediaResizeViewSet(viewsets.ModelViewSet):
-    queryset = Media.objects.all()
-    serializer_class = MediaResizeSerializer
-    http_method_names = ['post'] 
-    
-    def perform_create(self, serializer):
-        request = self.request
-        width = request.POST['width']
-        height = request.POST['height']
-        img =  request.POST['image']
-        ext = img.split('.')[-1]
-        if request.user.is_authenticated:
-            username = request.user.username
-            query = (Media.objects.filter(owner__username=username).filter(image=img) | Media.objects.filter(public=True)).first()
-            if query is not None:
-                imgpath = os.path.join(settings.MEDIA_ROOT,img)
-                image = Image.open(imgpath)
-                image = image.resize((width, height), PIL.Image.ANTIALIAS)
-                filename = uuid.uuid4() + '.' + ext
-                image.save(os.path.join(settings.MEDIA_ROOT,filename))
-                reopen = open(os.path.join(settings.MEDIA_ROOT,filename),'r')
-                django_file = File(reopen)
-                serializer.save(
-                    display_name = query.display_name + ' Resized',
-                    public = True,
-                    image = filename,
-                    owner = self.request.user
-                    )
-            else:
-                raise Http404
-        else:
-            return redirect('/login?next=/upload')
-
 class MediaPublicFeedViewSet(viewsets.ModelViewSet):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
