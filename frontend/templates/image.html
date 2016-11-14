@@ -28,8 +28,12 @@
 
       </div>
       <div class="">
+<div class="form-group">
+  <button type="button" name="button" class="btn btn-default" ng-click="edit()">Edit</button>
 
-        <button type="button" name="button" class="btn btn-default" ng-click="edit()">Edit</button>
+</div>
+        <div class="alert alert-danger" ng-show="error" role="alert" ng-bind="errorMessage">...</div>
+
         <div ng-show="editMode">
           <div class="form-group"  style="margin-top: 10px;">
             <label for="optionsRadios">Choose API:</label>
