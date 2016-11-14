@@ -46,6 +46,8 @@ console.log(baseUrl);
 .controller('imageController', ['$scope', 'image', function($scope, imageService) {
   $scope.editMode = false;
   $scope.data = [];
+  $scope.model = {};
+  $scope.model.option = 1;
   $scope.edit = function() {
     console.log('Im here');
     $scope.editMode = true;
@@ -54,23 +56,44 @@ console.log(baseUrl);
   var image = document.getElementById('image');
   var context = canvas.getContext('2d');
   $scope.submit = function() {
-    console.log($scope.data);
-    newData = []
-    if ($scope.data.length < 3) {
-      console.log('Too Short');
-      return;
+    if ($scope.model.option == 1) {
+      // Handling Option 1
+      if ($scope.model.height == null || $scope.model.width == null) {
+        return;
+      }
+      imageService.imageAPIResize({image: image.src.substr(image.src.lastIndexOf("/")+1),
+                            height: parseInt($scope.model.height),
+                            width: parseInt($scope.model.width)})
+            .then(function(data) {
+          console.log(data);
+      });
     }
-    $scope.imgsrc = image.src;
-    for (var i = 0; i < $scope.data.length; i++) {
-      newData.push({x: $scope.data[i].x*($scope.naturalWidth/$scope.width)|0,
-                    y: $scope.data[i].y*($scope.naturalHeight/$scope.height)|0});
+    else if ($scope.model.option == 2) {
+      console.log($scope.data);
+      newData = []
+      if ($scope.data.length < 3) {
+        console.log('Too Short');
+        return;
+      }
+      $scope.imgsrc = image.src;
+      for (var i = 0; i < $scope.data.length; i++) {
+        newData.push({x: $scope.data[i].x*($scope.naturalWidth/$scope.width)|0,
+                      y: $scope.data[i].y*($scope.naturalHeight/$scope.height)|0});
+      }
+      console.log(newData);
+      imageService.imageAPIRemoval({points: newData,
+                                    image: image.src.substr(image.src.lastIndexOf("/")+1)})
+                   .then(function(data) {
+                      console.log(data);
+      });
     }
-    console.log(newData);
-    imageService.imageAPI({points: newData, image: image.src.substr(image.src.lastIndexOf("/")+1)}).then(function(data) {
-      console.log(data);
-    })
+
   }
   $scope.doMouseDown = function(event) {
+    if ($scope.model.option == 1) {
+      $scope.clear();
+      return;
+    }
     console.log('Here')
     console.log(event)
     var event = event;
@@ -90,6 +113,10 @@ console.log(baseUrl);
     context.drawImage(image, 0,0, image.naturalWidth, image.naturalHeight, 0,0,image.width, image.height);
     canvas.addEventListener("click", $scope.doMouseDown, true);
     });
+    $scope.clear = function() {
+      context.drawImage(image, 0,0, $scope.naturalWidth, $scope.naturalHeight, 0,0,$scope.width, $scope.height);
+      $scope.data = [];
+    }
 
 
   $scope.data = [
