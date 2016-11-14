@@ -7,5 +7,5 @@ from backend.v1.views.image_resize import *
 urlpatterns = [
     url(r'^images/', include(media_router.urls)),
     url(r'^developer/',include(developer_router.urls)),
-    url(r'^resize/', image_resize)
+    url(r'^resize', image_resize)
 ]

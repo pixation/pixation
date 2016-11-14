@@ -3,17 +3,23 @@ from tables.media import Media
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.http import Http404
+from django.core.files.base import ContentFile
+from io import BytesIO
+import codecs
 import PIL
 import os
 import uuid
+import json
 from PIL import Image
 from django.conf import settings
 from tables.media import Media
 from django.core.files import File
+
 def image_resize(request):
-    width = request.GET['width']
-    height = request.GET['height']
-    img =  request.GET['image']
+    json_data= json.loads(request.body.decode('utf-8'))
+    width = json_data['width']
+    height = json_data['height']
+    img =  json_data['image']
     ext = img.split('.')[-1]
     if request.user.is_authenticated:
         username = request.user.username
@@ -22,17 +28,15 @@ def image_resize(request):
             imgpath = os.path.join(settings.MEDIA_ROOT,img)
             image = Image.open(imgpath)
             image = image.resize((width, height), PIL.Image.ANTIALIAS)
-            filename = uuid.uuid4() + '.' + ext
-            image.save(os.path.join(settings.MEDIA_ROOT,filename))
-            reopen = open(os.path.join(settings.MEDIA_ROOT,filename),'r')
-            django_file = File(reopen)
-
+            output = BytesIO()
+            image.save(output,'BMP')
+            filecontent = ContentFile(output.getvalue())
             media = Media()
-            media.display_name = query.display_name + ' Resized'
-            media.owner = query.owner
+            media.owner = request.user
+            media.dislay_name = img + ' Resized'
             media.public = query.public
-            media.image.save(filename, django_file, save=True)
-            return redirect('/dashboard')
+            media.image.save('image.png',File(filecontent), save=True)
+            return redirect(media.get_link())
         else:
             raise Http404
     else:
