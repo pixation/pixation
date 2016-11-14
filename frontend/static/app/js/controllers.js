@@ -44,6 +44,8 @@ console.log(baseUrl);
 
 }])
 .controller('imageController', ['$scope', 'image', function($scope, imageService) {
+  $scope.errorMessage = "Error Input!";
+  $scope.error = false;
   $scope.editMode = false;
   $scope.data = [];
   $scope.model = {};
@@ -58,9 +60,11 @@ console.log(baseUrl);
   $scope.submit = function() {
     if ($scope.model.option == 1) {
       // Handling Option 1
-      if ($scope.model.height == null || $scope.model.width == null) {
+      if ($scope.model.height == null || $scope.model.width == null || $scope.model.width == '' || $scope.model.height == '') {
+        $scope.error = true;
         return;
       }
+      $scope.error = false;
       imageService.imageAPIResize({image: image.src.substr(image.src.lastIndexOf("/")+1),
                             height: parseInt($scope.model.height),
                             width: parseInt($scope.model.width)})
@@ -73,8 +77,10 @@ console.log(baseUrl);
       newData = []
       if ($scope.data.length < 3) {
         console.log('Too Short');
+        $scope.error = true;
         return;
       }
+      $scope.error = false;
       $scope.imgsrc = image.src;
       for (var i = 0; i < $scope.data.length; i++) {
         newData.push({x: $scope.data[i].x*($scope.naturalWidth/$scope.width)|0,
