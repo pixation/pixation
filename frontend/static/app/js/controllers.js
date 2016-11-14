@@ -1,6 +1,7 @@
-angular.module('pixation.controllers', ['pixation.services'])
+angular.module('pixation.controllers', ['pixation.services', 'ui.bootstrap'])
 .controller('dashboardController', ["$scope", "dashboard", function ($scope, dashboard) {
   $scope.userImages = [];
+
   $scope.pageUser = 1;
   $scope.pagePublic = 1;
   $scope.publicImages = [];
@@ -43,8 +44,63 @@ $scope.showMorePublic();
 console.log(baseUrl);
 
 }])
-.controller('developerController', ["$scope", "developer", function ($scope, developer) {
+.controller('createAPIKeyController', ['$scope', '$uibModalInstance', 'developer','items', function ($scope, $uibModalInstance,developer, items) {
+  console.log(items);
+  $scope.model = {};
+  $scope.model.sources = [{host: ''}];
+  $scope.create = function () {
+    var sources = [];
+    if ($scope.sources == '' || $scope.sources == null) {
+
+    }
+    else {
+      sources = $scope.sources.split(',')
+      for (var i =0; i < sources.length; i++) {
+        sources[i] = {host: sources[i].trim()};
+      }
+    }
+    developer.addKey({sources: sources, key:'a', quota:123}).then(function(data) {
+      console.log(data);
+    })
+    console.log(sources)
+    $uibModalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+}])
+.controller('developerController', ["$scope", "developer", "$uibModal", function ($scope, developer, $uibModal) {
   $scope.userImages = [];
+  var $ctrl = this;
+  $ctrl.items = ['item1', 'item2', 'item3'];
+
+  $ctrl.animationsEnabled = true;
+
+  var $ctrl = this;
+  $ctrl.items = ['item1', 'item2', 'item3'];
+
+  $ctrl.animationsEnabled = true;
+
+  $scope.open = function (size, parentSelector) {
+    var parentElem = parentSelector ?
+      angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+    var modalInstance = $uibModal.open({
+      templateUrl: 'createAPIKey.html',
+      controller: 'createAPIKeyController',
+      size: 'lg',
+      resolve: {
+        items: function () {
+          return [1,2];
+        }
+      }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $ctrl.selected = selectedItem;
+    }, function () {
+    });
+  };
 
   $scope.model = {public: false};
   $scope.becomeDeveloper = function () {

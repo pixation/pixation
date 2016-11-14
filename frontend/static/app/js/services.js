@@ -64,9 +64,9 @@ angular.module('pixation.services', [])
             },
             addKey: function (data) {
               var deferred = $q.defer();
-              var urlToUse = baseUrl + '/api/v1/developer/makeDeveloper/';
+              var urlToUse = baseUrl + '/api/v1/developer/makekey/';
               console.log(urlToUse);
-              $http.post(urlToUse).success(function (data) {
+              $http.post(urlToUse, data).success(function (data) {
                   deferred.resolve(data);
               }).error(function (data) {
                   deferred.reject();

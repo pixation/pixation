@@ -22,8 +22,41 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
       {% else %}
+      <script type="text/ng-template" id="createAPIKey.html">
+          <div class="modal-header">
+              <h3 class="modal-title" id="modal-title">Create API Key</h3>
+          </div>
+          <div class="modal-body" id="modal-body">
+            <h2>Sources (Enter Comma Separated)</h2>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                    <textarea class="form-control" rows="4" ng-model="sources"></textarea>
+                </div>
+              </div>
+            </div>
+            <div>
+              Enter nothing if you want source to be *
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+              <button class="btn btn-primary" type="button" ng-click="create()">Create</button>
+
+          </div>
+      </script>
+      <script type="text/ng-template" id="stackedModal.html">
+          <div class="modal-header">
+              <h3 class="modal-title" >The  modal!</h3>
+          </div>
+          <div class="modal-body" >
+              Having multiple modals open at once is probably bad UX but it's technically possible.
+          </div>
+      </script>
+
       <div class="form-group">
-        <a href="http://{{request.get_host}}/create-api-key" class="btn btn-success">Create New API Key</a>
+        <button type="button" class="btn btn-success" ng-click="open()">Create New API Key</button>
+
       </div>
       <table class="table table-hover">
     <thead>
