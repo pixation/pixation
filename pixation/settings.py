@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'backend',
     'frontend',
     # Third Party Apps
-    'bootstrapform',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
