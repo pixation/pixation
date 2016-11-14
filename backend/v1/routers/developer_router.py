@@ -6,5 +6,10 @@ developer_router = routers.DefaultRouter()
 developer_router.register(
     'makeDeveloper',
     MakeDeveloperViewSet,
-    'v1 Developer Set'
+    'v1 Developer Set',
+)
+developer_router.register(
+    'makekey',
+    APIManagementViewSet,
+    'v1 API Management',
 )

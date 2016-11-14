@@ -10,7 +10,7 @@ from tables.media import Media
 
 class MediaUploadViewSet(viewsets.ModelViewSet):
     queryset = Media.objects.all()
-    serializer_class = MediaUploadSerializer
+    serializer_class = MediaSerializer
     http_method_names = ['post'] 
     
     def perform_create(self, serializer):
@@ -19,20 +19,20 @@ class MediaUploadViewSet(viewsets.ModelViewSet):
 
 class MediaPublicFeedViewSet(viewsets.ModelViewSet):
     queryset = Media.objects.all()
-    serializer_class = MediaPublicFeedSerializer
+    serializer_class = MediaSerializer
     http_method_names = ['get']
     
     def list(self, request):        
         queryset = Media.objects.filter(public=1)
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = MediaPublicFeedSerializer(
+            serializer = MediaSerializer(
             page, 
             many=True,
             context={'request': request}
             )
             return self.get_paginated_response(serializer.data)
-        serializer = MediaPublicFeedSerializer(
+        serializer = MediaSerializer(
             queryset, 
             many=True,
             context={'request': request}
@@ -42,7 +42,7 @@ class MediaPublicFeedViewSet(viewsets.ModelViewSet):
 
 class MediaUserFeedViewSet(viewsets.ModelViewSet):
     queryset = Media.objects.all()
-    serializer_class = MediaUserFeedSerializer
+    serializer_class = MediaSerializer
     http_method_names = ['get']
     def list(self, request):
         if self.request.user.is_authenticated:
@@ -50,13 +50,13 @@ class MediaUserFeedViewSet(viewsets.ModelViewSet):
             queryset = Media.objects.filter(owner=user)
             page = self.paginate_queryset(queryset)
             if page is not None:
-                serializer = MediaUserFeedSerializer(
+                serializer = MediaSerializer(
                     page, 
                     many=True,
                     context={'request': request}
                     )
                 return Response(serializer.data)
-            serializer = MediaUserFeedSerializer(
+            serializer = MediaSerializer(
                     queryset, 
                     many=True,
                     context={'request': request}
