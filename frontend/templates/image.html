@@ -11,10 +11,18 @@
     <h2>Image</h2>
     <div class="row">
       <div class="col-md-6">
-        <img class="img-responsive" src="https://urukrama.files.wordpress.com/2008/07/awesome-red01.png" alt="Test" />
+        <img class="img-responsive" src="{{image}}" alt="Test" />
       </div>
       <div class="col-md-6">
-        {{a}}
+        <div class="">
+        	{{owner}}
+        </div>
+				<div class="">
+					Is Public:{{public}}
+				</div>
+				<div class="">
+					<button type="button" name="button" class="btn btn-default" ng-click="edit()">Edit</button>
+				</div>
       </div>
     </div>
 </div>
