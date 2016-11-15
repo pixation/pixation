@@ -78,7 +78,6 @@ def image_remove(request):
     img =  json_data['image']
     points = json_data['points']
     print(points)
-    
 
     if request.user.is_authenticated:
         username = request.user.username

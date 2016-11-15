@@ -45,7 +45,11 @@ def image_resize2(request):
     if query is not None:
         api_management = APIManagement.objects.filter(key=key).first()
         if api_management.quota <= 0:
-            raise Http404
+            imgpath = os.path.join("notallowed.png")
+            image = Image.open(imgpath)
+            response = HttpResponse(content_type="image/jpeg")
+            image.save(response, "JPEG")
+            return response
         else:
             api_management.quota -= 1
             api_management.save() 
@@ -94,4 +98,8 @@ def image_resize2(request):
             image.save(response, "JPEG")
             return response
     else:
-        return HttpResponse(status=404)
+        imgpath = os.path.join("notallowed.png")
+        image = Image.open(imgpath)
+        response = HttpResponse(content_type="image/jpeg")
+        image.save(response, "JPEG")
+        return response
