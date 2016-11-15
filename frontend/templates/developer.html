@@ -81,14 +81,19 @@
       <tr>
         <th>API Key</th>
         <th>Sources</th>
+        <th>Quota</th>
         <th></th>
         <th></th>
       </tr>
     </thead>
     <tbody>
+
       <tr ng-repeat="key in keys">
         <td ng-bind="key.key"></td>
         <td><span ng-show="key.sources.length == 0">*</span><span ng-repeat="source in key.sources"><span ng-bind="source.host"></span><span ng-bind="$last ? '' : ', '">a</span></span></td>
+        <td ng-bind="key.quota">
+
+        </td>
         <td><button type="button" name="button" class="btn btn-warning" ng-click="refreshAPIKey()">Refresh</button></td>
 
         <td><button type="button" name="button" class="btn btn-danger" ng-click="deleteAPIKey()">Delete</button></td>
