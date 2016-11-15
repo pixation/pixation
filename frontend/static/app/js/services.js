@@ -124,7 +124,7 @@ angular.module('pixation.services', [])
         return {
             imageAPIResize: function (data) {
                 var deferred = $q.defer();
-                var urlToUse = baseUrl + '/api/v1/resize';
+                var urlToUse = baseUrl + '/api/v1/resize/';
                 console.log(data);
                 $http.post(urlToUse, data).success(function (data) {
                     deferred.resolve(data);
@@ -135,7 +135,7 @@ angular.module('pixation.services', [])
             },
             imageAPIRemoval: function (data) {
                 var deferred = $q.defer();
-                var urlToUse = baseUrl + '/api/v1/remove';
+                var urlToUse = baseUrl + '/api/v1/remove/';
                 console.log(data);
                 $http.post(urlToUse, data).success(function (data) {
                     deferred.resolve(data);

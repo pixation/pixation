@@ -217,7 +217,16 @@ console.log(baseUrl);
                             height: parseInt($scope.model.height),
                             width: parseInt($scope.model.width)})
             .then(function(data) {
-          console.log(data);
+              console.log(data);
+              if (data.link) {
+
+                  $scope.error = false;
+                  window.location = data.link
+              }
+              else {
+                $scope.error = true;
+
+              }
       });
     }
     else if ($scope.model.option == 2) {
@@ -239,6 +248,16 @@ console.log(baseUrl);
                                     image: image.src.substr(image.src.lastIndexOf("/")+1)})
                    .then(function(data) {
                       console.log(data);
+                      console.log(data);
+                      if (data.link) {
+
+                          $scope.error = false;
+                          window.location = data.link
+                      }
+                      else {
+                        $scope.error = true;
+
+                      }
       });
     }
 
