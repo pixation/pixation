@@ -34,7 +34,7 @@ $scope.showMorePublic();
   $scope.upload = function () {
     upload.uploadImage($scope.model).then(function (data) {
       if (data.image) {
-        window.location.href = data.image;
+        window.location.href = data.link;
       }
       console.log(data);
     }
