@@ -62,6 +62,17 @@ angular.module('pixation.services', [])
               });
               return deferred.promise;
             },
+            getKeys: function () {
+              var deferred = $q.defer();
+              var urlToUse = baseUrl + '/api/v1/developer/getkeys/';
+              console.log(urlToUse);
+              $http.get(urlToUse).success(function (data) {
+                  deferred.resolve(data);
+              }).error(function (data) {
+                  deferred.reject();
+              });
+              return deferred.promise;
+            },
             addKey: function (data) {
               var deferred = $q.defer();
               var urlToUse = baseUrl + '/api/v1/developer/makekey/';

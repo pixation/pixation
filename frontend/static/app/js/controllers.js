@@ -115,6 +115,11 @@ console.log(baseUrl);
   $ctrl.items = ['item1', 'item2', 'item3'];
 
   $ctrl.animationsEnabled = true;
+  $scope.keys = [];
+  developer.getKeys().then(function (data) {
+    console.log(data);
+    $scope.keys = data.results;
+  })
 
   $scope.createAPIKey = function (size, parentSelector) {
     var parentElem = parentSelector ?
