@@ -18,7 +18,7 @@ class APIManagementSerializer(serializers.ModelSerializer):
     sources = SourceSerializer(many=True)
     developer_name = serializers.StringRelatedField(
         many=False,
-        source='developer.user.username',    
+        source='developer.user.username',
     )
     class Meta:
         model = APIManagement
@@ -41,7 +41,7 @@ class DeveloperSerializer(serializers.ModelSerializer):
     # api_management = APIManagementSerializer(many=True)
     developer_name = serializers.StringRelatedField(
         many=False,
-        source='user.username',    
+        source='user.username',
     )
     class Meta:
         model = Developer

@@ -22,9 +22,92 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
       {% else %}
+      <script type="text/ng-template" id="createAPIKey.html">
+          <div class="modal-header">
+              <h3 class="modal-title" id="modal-title">Create API Key</h3>
+          </div>
+          <div class="modal-body" id="modal-body">
+            <h2>Sources (Enter Comma Separated)</h2>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                    <textarea class="form-control" rows="4" ng-model="sources"></textarea>
+                </div>
+              </div>
+            </div>
+            <div>
+              Enter nothing if you want source to be *
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+              <button class="btn btn-primary" type="button" ng-click="create()">Create</button>
+
+          </div>
+      </script>
+      <script type="text/ng-template" id="deleteAPIKey.html">
+          <div class="modal-header">
+              <h3 class="modal-title" id="modal-title">Delete API Key</h3>
+          </div>
+          <div class="modal-body" id="modal-body">
+            <h2>API Key = <span>12312312321</span></h2>
+          </div>
+          <div class="modal-footer">
+              <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+              <button class="btn btn-danger" type="button" ng-click="delete()">Delete</button>
+
+          </div>
+      </script>
+      <script type="text/ng-template" id="refreshAPIKey.html">
+          <div class="modal-header">
+              <h3 class="modal-title" id="modal-title">Refresh API Key</h3>
+          </div>
+          <div class="modal-body" id="modal-body">
+            <h2>API Key = <span>12312312321</span></h2>
+          </div>
+          <div class="modal-footer">
+              <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+              <button class="btn btn-success" type="button" ng-click="refresh()">Refresh</button>
+
+          </div>
+      </script>
       <div class="form-group">
-        <a href="http://{{request.get_host}}/developer" class="btn btn-primary">Developer Console</a>
+        <button type="button" class="btn btn-success" ng-click="createAPIKey()">Create New API Key</button>
+
       </div>
+      <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>API Key</th>
+        <th>Sources</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>John</td>
+        <td>Doe</td>
+        <td><button type="button" name="button" class="btn btn-warning" ng-click="refreshAPIKey()">Refresh</button></td>
+
+        <td><button type="button" name="button" class="btn btn-danger" ng-click="deleteAPIKey()">Delete</button></td>
+      </tr>
+      <tr>
+        <td>Mary</td>
+        <td>Moe</td>
+        <td><button type="button" name="button" class="btn btn-warning">Refresh</button></td>
+
+        <td><button type="button" name="button" class="btn btn-danger">Delete</button></td>
+      </tr>
+      <tr>
+        <td>July</td>
+        <td>Dooley</td>
+        <td><button type="button" name="button" class="btn btn-warning">Refresh</button></td>
+
+        <td><button type="button" name="button" class="btn btn-danger">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
       {% endif %}
     {% endif %}
 

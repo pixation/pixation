@@ -18,3 +18,9 @@ cursor: pointer;
   color: #fff;
   background: #79aec8;
 }
+tr td {
+  font-size: 16px;
+}
+thead th {
+  font-size: 16px;
+}
