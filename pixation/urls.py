@@ -17,7 +17,9 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
+from django.http import HttpResponseRedirect
 urlpatterns = [
+    url(r'^$', lambda r: HttpResponseRedirect('/dashboard')),
     url(r'', include('frontend.urls')),
     url(r'^admin/',  admin.site.urls),
     url(r'', include('allauth.urls')),

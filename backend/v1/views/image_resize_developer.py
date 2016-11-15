@@ -11,6 +11,8 @@ import os
 import uuid
 import json
 from PIL import Image
+from urllib.parse import urlparse
+
 from django.conf import settings
 
 from django.core.files import File
@@ -33,13 +35,20 @@ def image_resize2(request):
     img = request.GET.get('image','')
     ext = img.split('.')[-1]
     key = request.GET.get('key','')
-    referer = request.META.get('HTTP_REFERER')
-    referer = 'google.com'
+    referer = request.META.get('HTTP_REFERER','')
+    referer = urlparse(referer).hostname
+    # referer = 'google.com'
     print(referer)
     # print(key)
     # query = APIManagement.objects.filter(key=key).filter(developer__user__media__image=image)
-    query = Media.objects.filter(image=img).filter(owner__developer__api_management__key=key).filter(owner__developer__api_management__sources__host=referer).first()
+    query = Media.objects.filter(image=img).filter(owner__developer__api_management__key=key, owner__developer__api_management__sources__host=referer).first()
     if query is not None:
+        api_management = APIManagement.objects.filter(key=key).first()
+        if api_management.quota <= 0:
+            raise Http404
+        else:
+            api_management.quota -= 1
+            api_management.save() 
         cache_query = CachedMedia.objects.filter(original=query).filter(height=height).filter(width=width).filter(api_type='1').first()
         if cache_query is not None:
             print("HIT")
