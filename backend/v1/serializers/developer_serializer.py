@@ -11,7 +11,7 @@ class SourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Source
         fields = (
-            'hosts',
+            'host',
         )
 
 class APIManagementSerializer(serializers.ModelSerializer):

@@ -25,8 +25,8 @@ from skimage import filters, color
 
 def image_resize(request):
     json_data= json.loads(request.body.decode('utf-8'))
-    width = abs(json_data['width'])+1
-    height = abs(json_data['height'])+1
+    width = abs(json_data['width'])
+    height = abs(json_data['height'])
     img =  json_data['image']
     ext = img.split('.')[-1]
     if request.user.is_authenticated:
@@ -42,17 +42,21 @@ def image_resize(request):
             np_img= np.array(image)
             np_img = util.img_as_float(np_img)
             eimg = filters.sobel(color.rgb2gray(np_img))
-            out = transform.seam_carve(np_img, eimg, 'vertical', query.width-width)
+            out = transform.seam_carve(np_img, eimg, 'horizontal', query.height-height)*255
+            
+            # out = transform.seam_carve(np_img, eimg, 'vertical', query.width-width)*255
             eimg = filters.sobel(color.rgb2gray(out))
-            out = transform.seam_carve(out, eimg, 'horizontal', query.height-height)*255
+            print(query.height,height,eimg.shape,out.shape)
+            # out = transform.seam_carve(out, eimg, 'horizontal', query.height-height)*255
             out = out.astype(np.uint8)
             image = Image.fromarray(out)
+            # image = image.resize((width, height), PIL.Image.ANTIALIAS)
             output = BytesIO()
             image.save(output,'BMP')
             filecontent = ContentFile(output.getvalue())
             media = Media()
             media.owner = request.user
-            media.dislay_name = img + ' Resized'
+            media.dislay_name = query.display_name + ' Resized'
             media.public = query.public
             media.image.save('image.png',File(filecontent), save=True)
             return JsonResponse({
