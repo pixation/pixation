@@ -33,8 +33,7 @@ class APIManagementSerializer(serializers.ModelSerializer):
         sources_data = validated_data.pop('sources')
         api_management = APIManagement.objects.create(**validated_data)
         for source_data in sources_data:
-        # print(sources_data)
-            Source.objects.create(api_management=api_management, **sources_data)
+            Source.objects.create(api_management=api_management, **source_data)
         return api_management
 
 class DeveloperSerializer(serializers.ModelSerializer):
