@@ -19,3 +19,15 @@ def refresh_key(request):
         return HttpResponse(status=200)
     else:
         raise Http404
+
+def delete_key(request):
+    key = request.GET.get('key','')
+    user = request.user
+    if user.is_authenticated:
+        api_management = APIManagement.objects.filter(key=key, developer__user=user).first()
+        if api_management is None:
+            raise Http404
+        api_management.delete()
+        return HttpResponse(status=200)
+    else:
+        raise Http404

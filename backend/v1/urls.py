@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^smartresize/',image_resize2),
     url(r'^remove/',image_remove),
     url(r'^refreshkey/',refresh_key),
+    url(r'^deletekey/',delete_key),
 ]
