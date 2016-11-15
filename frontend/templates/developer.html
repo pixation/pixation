@@ -75,7 +75,8 @@
         <button type="button" class="btn btn-success" ng-click="createAPIKey()">Create New API Key</button>
 
       </div>
-      <table class="table table-hover">
+      <h1 ng-show="keys.length == 0">Sorry no keys!</h1>
+      <table class="table table-hover" ng-show="keys.length > 0">
     <thead>
       <tr>
         <th>API Key</th>
@@ -85,26 +86,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>John</td>
-        <td>Doe</td>
+      <tr ng-repeat="key in keys">
+        <td ng-bind="key.key"></td>
+        <td><span ng-show="key.sources.length == 0">*</span><span ng-repeat="source in key.sources"><span ng-bind="source.host"></span><span ng-bind="$last ? '' : ', '">a</span></span></td>
         <td><button type="button" name="button" class="btn btn-warning" ng-click="refreshAPIKey()">Refresh</button></td>
 
         <td><button type="button" name="button" class="btn btn-danger" ng-click="deleteAPIKey()">Delete</button></td>
-      </tr>
-      <tr>
-        <td>Mary</td>
-        <td>Moe</td>
-        <td><button type="button" name="button" class="btn btn-warning">Refresh</button></td>
-
-        <td><button type="button" name="button" class="btn btn-danger">Delete</button></td>
-      </tr>
-      <tr>
-        <td>July</td>
-        <td>Dooley</td>
-        <td><button type="button" name="button" class="btn btn-warning">Refresh</button></td>
-
-        <td><button type="button" name="button" class="btn btn-danger">Delete</button></td>
       </tr>
     </tbody>
   </table>
