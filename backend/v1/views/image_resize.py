@@ -18,9 +18,11 @@ from django.http import JsonResponse
 import numpy as np
 
 
+from skimage import data, draw
 from skimage import transform, util
 import numpy as np
 from skimage import filters, color
+from matplotlib import pyplot as plt
 
 
 def image_resize(request):
@@ -71,31 +73,34 @@ def image_remove(request):
     img =  json_data['image']
     points = json_data['points']
     print(points)
-    poly = []
-    for point in points:
-        poly.append((point['x'],point['y']))
-    pr = np.array([p[0] for p in poly])
-    pc = np.array([p[1] for p in poly])
-    rr, cc = draw.polygon(pr, pc)
-    ext = img.split('.')[-1]
-    eimg[rr, cc] -= 1000
     
+
     if request.user.is_authenticated:
         username = request.user.username
         query = (Media.objects.filter(owner__username=username).filter(image=img) | Media.objects.filter(public=True)).first()
-        if query.width - width <0 or query.height -height <0:
-            return JsonResponse({
-                "error":"Invalid height and width"
-            })
         if query is not None:
             imgpath = os.path.join(settings.MEDIA_ROOT,img)
             image = Image.open(imgpath)
             np_img= np.array(image)
             np_img = util.img_as_float(np_img)
+
+            poly = []
+            xmax = points[0]['x']
+            xmin = points[0]['x']
+            for point in points:
+                xmax = max(xmax,point['y'])
+                xmin = min(xmin,point['y'])
+                poly.append((point['y'],point['x']))
+            pr = np.array([p[0] for p in poly])
+            pc = np.array([p[1] for p in poly])
+            rr, cc = draw.polygon(pr, pc)
+            ext = img.split('.')[-1]
             eimg = filters.sobel(color.rgb2gray(np_img))
-            out = transform.seam_carve(np_img, eimg, 'horizontal', query.height-height)*255
-            eimg = filters.sobel(color.rgb2gray(out))
-            out = transform.seam_carve(out, eimg, 'vertical', query.width-width)*255
+            print(eimg.shape)
+            print(rr.max(),rr.min(),cc)
+            eimg[rr, cc] -= 1000
+
+            out = transform.seam_carve(np_img, eimg, 'vertical', (xmax-xmin)//3)*255
             out = out.astype(np.uint8)
             image = Image.fromarray(out)
             # image = image.resize((width, height), PIL.Image.ANTIALIAS)
