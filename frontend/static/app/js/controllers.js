@@ -70,6 +70,40 @@ console.log(baseUrl);
     $uibModalInstance.dismiss('cancel');
   };
 }])
+.controller('deleteAPIKeyController', ['$scope', '$uibModalInstance', 'developer','items', function ($scope, $uibModalInstance,developer, items) {
+  console.log(items);
+  $scope.model = {};
+  $scope.model.sources = [{host: ''}];
+  $scope.delete = function () {
+    var key = '213'
+    developer.deleteKey({sources: sources, key:key, quota:123}).then(function(data) {
+      console.log(data);
+    })
+    console.log(sources)
+    $uibModalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+}])
+.controller('refreshAPIKeyController', ['$scope', '$uibModalInstance', 'developer','items', function ($scope, $uibModalInstance,developer, items) {
+  console.log(items);
+  $scope.model = {};
+  $scope.model.sources = [{host: ''}];
+  $scope.refresh = function () {
+    var key = '213'
+    developer.refresh({sources: sources, key:key, quota:123}).then(function(data) {
+      console.log(data);
+    })
+    console.log(sources)
+    $uibModalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+}])
 .controller('developerController', ["$scope", "developer", "$uibModal", function ($scope, developer, $uibModal) {
   $scope.userImages = [];
   var $ctrl = this;
@@ -82,7 +116,7 @@ console.log(baseUrl);
 
   $ctrl.animationsEnabled = true;
 
-  $scope.open = function (size, parentSelector) {
+  $scope.createAPIKey = function (size, parentSelector) {
     var parentElem = parentSelector ?
       angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
     var modalInstance = $uibModal.open({
@@ -95,6 +129,43 @@ console.log(baseUrl);
         }
       }
     });
+
+    modalInstance.result.then(function (selectedItem) {
+      $ctrl.selected = selectedItem;
+    }, function () {
+    });
+  };
+  $scope.deleteAPIKey = function (size, parentSelector) {
+    var parentElem = parentSelector ?
+      angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+    var modalInstance = $uibModal.open({
+      templateUrl: 'deleteAPIKey.html',
+      controller: 'deleteAPIKeyController',
+      size: 'lg',
+      resolve: {
+        items: function () {
+          return [1,2];
+        }
+      }
+    });
+    modalInstance.result.then(function (selectedItem) {
+      $ctrl.selected = selectedItem;
+    }, function () {
+    });
+  };
+    $scope.refreshAPIKey = function (size, parentSelector) {
+      var parentElem = parentSelector ?
+        angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+      var modalInstance = $uibModal.open({
+        templateUrl: 'refreshAPIKey.html',
+        controller: 'refreshAPIKeyController',
+        size: 'lg',
+        resolve: {
+          items: function () {
+            return [1,2];
+          }
+        }
+      });
 
     modalInstance.result.then(function (selectedItem) {
       $ctrl.selected = selectedItem;

@@ -45,17 +45,34 @@
 
           </div>
       </script>
-      <script type="text/ng-template" id="stackedModal.html">
+      <script type="text/ng-template" id="deleteAPIKey.html">
           <div class="modal-header">
-              <h3 class="modal-title" >The  modal!</h3>
+              <h3 class="modal-title" id="modal-title">Delete API Key</h3>
           </div>
-          <div class="modal-body" >
-              Having multiple modals open at once is probably bad UX but it's technically possible.
+          <div class="modal-body" id="modal-body">
+            <h2>API Key = <span>12312312321</span></h2>
+          </div>
+          <div class="modal-footer">
+              <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+              <button class="btn btn-danger" type="button" ng-click="delete()">Delete</button>
+
           </div>
       </script>
+      <script type="text/ng-template" id="refreshAPIKey.html">
+          <div class="modal-header">
+              <h3 class="modal-title" id="modal-title">Refresh API Key</h3>
+          </div>
+          <div class="modal-body" id="modal-body">
+            <h2>API Key = <span>12312312321</span></h2>
+          </div>
+          <div class="modal-footer">
+              <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+              <button class="btn btn-success" type="button" ng-click="refresh()">Refresh</button>
 
+          </div>
+      </script>
       <div class="form-group">
-        <button type="button" class="btn btn-success" ng-click="open()">Create New API Key</button>
+        <button type="button" class="btn btn-success" ng-click="createAPIKey()">Create New API Key</button>
 
       </div>
       <table class="table table-hover">
@@ -71,9 +88,9 @@
       <tr>
         <td>John</td>
         <td>Doe</td>
-        <td><button type="button" name="button" class="btn btn-warning">Refresh</button></td>
+        <td><button type="button" name="button" class="btn btn-warning" ng-click="refreshAPIKey()">Refresh</button></td>
 
-        <td><button type="button" name="button" class="btn btn-danger">Delete</button></td>
+        <td><button type="button" name="button" class="btn btn-danger" ng-click="deleteAPIKey()">Delete</button></td>
       </tr>
       <tr>
         <td>Mary</td>
