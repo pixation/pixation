@@ -43,11 +43,8 @@ def image_resize(request):
             np_img = util.img_as_float(np_img)
             eimg = filters.sobel(color.rgb2gray(np_img))
             out = transform.seam_carve(np_img, eimg, 'horizontal', query.height-height)*255
-            
-            # out = transform.seam_carve(np_img, eimg, 'vertical', query.width-width)*255
             eimg = filters.sobel(color.rgb2gray(out))
-            print(query.height,height,eimg.shape,out.shape)
-            # out = transform.seam_carve(out, eimg, 'horizontal', query.height-height)*255
+            out = transform.seam_carve(out, eimg, 'vertical', query.width-width)*255
             out = out.astype(np.uint8)
             image = Image.fromarray(out)
             # image = image.resize((width, height), PIL.Image.ANTIALIAS)
@@ -58,7 +55,7 @@ def image_resize(request):
             media.owner = request.user
             media.dislay_name = query.display_name + ' Resized'
             media.public = query.public
-            media.image.save('image.png',File(filecontent), save=True)
+            media.image.save('image.jpg',File(filecontent), save=True)
             return JsonResponse({
                 'link':media.get_link()
                 })
