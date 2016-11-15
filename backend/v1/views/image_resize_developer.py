@@ -61,19 +61,26 @@ def image_resize2(request):
             image.save(response, "JPEG")
             return response
         else:
+            print(query.width,width,query.height,height)
+            if query.width - width <0 or query.height -height <0:
+                raise Http404
             imgpath = os.path.join(settings.MEDIA_ROOT,img)
             image = Image.open(imgpath)
             np_img= np.array(image)
             np_img = util.img_as_float(np_img)
             eimg = filters.sobel(color.rgb2gray(np_img))
-            print('Before transform')
-            out = transform.seam_carve(np_img, eimg, 'horizontal', query.height-height)*255
+            out = transform.seam_carve(np_img, eimg, 'horizontal', query.height - height)
+            out = out/out.max()
+            out = out*255
             eimg = filters.sobel(color.rgb2gray(out))
-            out = transform.seam_carve(out, eimg, 'vertical', query.width-width)*255
+            out = transform.seam_carve(out, eimg, 'vertical', query.width - width)
+            out = out/out.max()
+            out = out*255
             out = out.astype(np.uint8)
             image = Image.fromarray(out)
+            # image = image.resize((width, height), PIL.Image.ANTIALIAS)
             output = BytesIO()
-            image.save(output,'BMP')
+            image.save(output,'JPEG')
             filecontent = ContentFile(output.getvalue())
             media = CachedMedia()
             media.owner = query.owner
@@ -82,7 +89,7 @@ def image_resize2(request):
             media.api_type = '1'
             media.last_hit_at = datetime.now()
             media.original = query
-            media.image.save('image.png',File(filecontent), save=True)
+            media.image.save('image.jpg',File(filecontent), save=True)
             response = HttpResponse(content_type="image/jpeg")
             image.save(response, "JPEG")
             return response
