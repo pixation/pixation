@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'rest_framework',
+    "django_cron",
 ]
 
 MIDDLEWARE = [
@@ -178,3 +179,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5
 }
+
+CRON_CLASSES = [
+    "cronjobs.cronjobs.MyCronJob",
+]
