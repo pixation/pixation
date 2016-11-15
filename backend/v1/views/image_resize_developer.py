@@ -30,15 +30,39 @@ from tables.developer import Developer
 from tables.cached_media import CachedMedia
 
 def image_resize2(request):
-    height = int(request.GET.get('height',''))
-    width = int(request.GET.get('width',''))
     img = request.GET.get('image','')
     ext = img.split('.')[-1]
     key = request.GET.get('key','')
     referer = request.META.get('HTTP_REFERER','')
     referer = urlparse(referer).hostname
+    if img=='' or key == '' or referer == '':
+        print('first')
+        imgpath = os.path.join("notallowed.png")
+        image = Image.open(imgpath)
+        response = HttpResponse(content_type="image/jpeg")
+        image.save(response, "JPEG")
+        return response
+    height = request.GET.get('height','')
+    width = request.GET.get('width','')
+    if height == '' or width=='':
+        query = Media.objects.filter(image=img).filter(owner__developer__api_management__key=key, owner__developer__api_management__sources__host=referer).first()
+        if query is not None:
+            print('second')
+            imgpath = os.path.join(settings.MEDIA_ROOT,str(query.image))
+            image = Image.open(imgpath)
+            response = HttpResponse(content_type="image/jpeg")
+            image.save(response, "JPEG")
+            return response
+        else:
+            print('third')
+            imgpath = os.path.join("notallowed.png")
+            image = Image.open(imgpath)
+            response = HttpResponse(content_type="image/jpeg")
+            image.save(response, "JPEG")
+            return response
     # referer = 'google.com'
     print(referer)
+    print(width)
     # print(key)
     # query = APIManagement.objects.filter(key=key).filter(developer__user__media__image=image)
     query = Media.objects.filter(image=img).filter(owner__developer__api_management__key=key, owner__developer__api_management__sources__host=referer).first()
