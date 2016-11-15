@@ -33,7 +33,8 @@ def image_resize(request):
     ext = img.split('.')[-1]
     if request.user.is_authenticated:
         username = request.user.username
-        query = (Media.objects.filter(owner__username=username).filter(image=img) | Media.objects.filter(public=True)).first()
+        query = (Media.objects.filter(owner__username=username).filter(image=img) | Media.objects.filter(image=img).filter(public=True)).first()
+        print(query.width,width,query.height,height)
         if query.width - width <0 or query.height -height <0:
             return JsonResponse({
                 "error":"Invalid height and width"
@@ -44,14 +45,18 @@ def image_resize(request):
             np_img= np.array(image)
             np_img = util.img_as_float(np_img)
             eimg = filters.sobel(color.rgb2gray(np_img))
-            out = transform.seam_carve(np_img, eimg, 'horizontal', query.height-height)*255
+            out = transform.seam_carve(np_img, eimg, 'horizontal', query.height - height)
+            out = out/out.max()
+            out = out*255
             eimg = filters.sobel(color.rgb2gray(out))
-            out = transform.seam_carve(out, eimg, 'vertical', query.width-width)*255
+            out = transform.seam_carve(out, eimg, 'vertical', query.width - width)
+            out = out/out.max()
+            out = out*255
             out = out.astype(np.uint8)
             image = Image.fromarray(out)
-            # image = image.resize((width, height), PIL.Image.ANTIALIAS)
+            image = image.resize((width, height), PIL.Image.ANTIALIAS)
             output = BytesIO()
-            image.save(output,'BMP')
+            image.save(output,'JPEG')
             filecontent = ContentFile(output.getvalue())
             media = Media()
             media.owner = request.user
