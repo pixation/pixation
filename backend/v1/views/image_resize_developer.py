@@ -60,11 +60,9 @@ def image_resize2(request):
             response = HttpResponse(content_type="image/jpeg")
             image.save(response, "JPEG")
             return response
-    # referer = 'google.com'
-    print(referer)
-    print(width)
-    # print(key)
-    # query = APIManagement.objects.filter(key=key).filter(developer__user__media__image=image)
+    print("Referer",referer)
+    height = int(height)
+    width = int(width)
     query = Media.objects.filter(image=img).filter(owner__developer__api_management__key=key, owner__developer__api_management__sources__host=referer).first()
     if query is not None:
         api_management = APIManagement.objects.filter(key=key).first()
@@ -89,6 +87,7 @@ def image_resize2(request):
             image.save(response, "JPEG")
             return response
         else:
+            print("Media Found")
             print(query.width,width,query.height,height)
             if query.width - width <0 or query.height -height <0:
                 raise Http404
@@ -122,6 +121,7 @@ def image_resize2(request):
             image.save(response, "JPEG")
             return response
     else:
+        print('No matching Image')
         imgpath = os.path.join("notallowed.png")
         image = Image.open(imgpath)
         response = HttpResponse(content_type="image/jpeg")
