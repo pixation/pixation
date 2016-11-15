@@ -94,9 +94,9 @@
         <td ng-bind="key.quota">
 
         </td>
-        <td><button type="button" name="button" class="btn btn-warning" ng-click="refreshAPIKey()">Refresh</button></td>
+        <td><button type="button" name="button" class="btn btn-warning" ng-click="refreshAPIKey($index)">Refresh</button></td>
 
-        <td><button type="button" name="button" class="btn btn-danger" ng-click="deleteAPIKey()">Delete</button></td>
+        <td><button type="button" name="button" class="btn btn-danger" ng-click="deleteAPIKey($index)">Delete</button></td>
       </tr>
     </tbody>
   </table>

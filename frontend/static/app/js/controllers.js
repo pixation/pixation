@@ -61,8 +61,10 @@ console.log(baseUrl);
     }
     developer.addKey({sources: sources, key:'a', quota:123}).then(function(data) {
       console.log(data);
+      window.location.reload()
+
     })
-    console.log(sources)
+    console.log(sources);
     $uibModalInstance.close();
   };
 
@@ -75,12 +77,12 @@ console.log(baseUrl);
   $scope.model = {};
   $scope.model.sources = [{host: ''}];
   $scope.delete = function () {
-    var key = '213'
-    developer.deleteKey({sources: sources, key:key, quota:123}).then(function(data) {
+    developer.deleteKey(items).then(function(data) {
       console.log(data);
+      window.location.reload();
+      console.log(sources);
+      $uibModalInstance.close();
     })
-    console.log(sources)
-    $uibModalInstance.close();
   };
 
   $scope.cancel = function () {
@@ -92,12 +94,12 @@ console.log(baseUrl);
   $scope.model = {};
   $scope.model.sources = [{host: ''}];
   $scope.refresh = function () {
-    var key = '213'
-    developer.refresh({sources: sources, key:key, quota:123}).then(function(data) {
+    developer.refreshKey(items).then(function(data) {
       console.log(data);
+      window.location.reload();
+      $uibModalInstance.close();
+      console.log(sources);
     })
-    console.log(sources)
-    $uibModalInstance.close();
   };
 
   $scope.cancel = function () {
@@ -140,16 +142,16 @@ console.log(baseUrl);
     }, function () {
     });
   };
-  $scope.deleteAPIKey = function (size, parentSelector) {
-    var parentElem = parentSelector ?
-      angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+  $scope.deleteAPIKey = function (index) {
+    // var parentElem = parentSelector ?
+      // angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
     var modalInstance = $uibModal.open({
       templateUrl: 'deleteAPIKey.html',
       controller: 'deleteAPIKeyController',
       size: 'lg',
       resolve: {
         items: function () {
-          return [1,2];
+          return $scope.keys[index].key;
         }
       }
     });
@@ -158,16 +160,17 @@ console.log(baseUrl);
     }, function () {
     });
   };
-    $scope.refreshAPIKey = function (size, parentSelector) {
-      var parentElem = parentSelector ?
-        angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+    $scope.refreshAPIKey = function (index) {
+      // var parentElem = parentSelector ?
+        // angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
       var modalInstance = $uibModal.open({
         templateUrl: 'refreshAPIKey.html',
         controller: 'refreshAPIKeyController',
         size: 'lg',
         resolve: {
           items: function () {
-            return [1,2];
+            console.log(index);
+            return $scope.keys[index].key;
           }
         }
       });
