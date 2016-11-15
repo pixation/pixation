@@ -64,3 +64,53 @@ def image_resize(request):
     else:
         return redirect('/login?next=/upload')
 
+def image_remove(request):
+    json_data= json.loads(request.body.decode('utf-8'))
+    # width = abs(json_data['width'])
+    # height = abs(json_data['height'])
+    img =  json_data['image']
+    points = json_data['points']
+    print(points)
+    poly = []
+    for point in points:
+        poly.append((point['x'],point['y']))
+    pr = np.array([p[0] for p in poly])
+    pc = np.array([p[1] for p in poly])
+    rr, cc = draw.polygon(pr, pc)
+    ext = img.split('.')[-1]
+    eimg[rr, cc] -= 1000
+    
+    if request.user.is_authenticated:
+        username = request.user.username
+        query = (Media.objects.filter(owner__username=username).filter(image=img) | Media.objects.filter(public=True)).first()
+        if query.width - width <0 or query.height -height <0:
+            return JsonResponse({
+                "error":"Invalid height and width"
+            })
+        if query is not None:
+            imgpath = os.path.join(settings.MEDIA_ROOT,img)
+            image = Image.open(imgpath)
+            np_img= np.array(image)
+            np_img = util.img_as_float(np_img)
+            eimg = filters.sobel(color.rgb2gray(np_img))
+            out = transform.seam_carve(np_img, eimg, 'horizontal', query.height-height)*255
+            eimg = filters.sobel(color.rgb2gray(out))
+            out = transform.seam_carve(out, eimg, 'vertical', query.width-width)*255
+            out = out.astype(np.uint8)
+            image = Image.fromarray(out)
+            # image = image.resize((width, height), PIL.Image.ANTIALIAS)
+            output = BytesIO()
+            image.save(output,'BMP')
+            filecontent = ContentFile(output.getvalue())
+            media = Media()
+            media.owner = request.user
+            media.dislay_name = query.display_name + ' Resized'
+            media.public = query.public
+            media.image.save('image.jpg',File(filecontent), save=True)
+            return JsonResponse({
+                'link':media.get_link()
+                })
+        else:
+            raise Http404
+    else:
+        return redirect('/login?next=/upload')
