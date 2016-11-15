@@ -86,9 +86,9 @@ angular.module('pixation.services', [])
             },
             refreshKey: function (data) {
               var deferred = $q.defer();
-              var urlToUse = baseUrl + '/api/v1/developer/makeDeveloper/';
+              var urlToUse = baseUrl + '/api/v1/refreshkey/?key='+data;
               console.log(urlToUse);
-              $http.post(urlToUse).success(function (data) {
+              $http.get(urlToUse).success(function (data) {
                   deferred.resolve(data);
               }).error(function (data) {
                   deferred.reject();
@@ -97,7 +97,7 @@ angular.module('pixation.services', [])
             },
             deleteKey: function (data) {
               var deferred = $q.defer();
-              var urlToUse = baseUrl + '/api/v1/developer/makeDeveloper/';
+              var urlToUse = baseUrl + '/api/v1/deletekey/?key='+data;
               console.log(urlToUse);
               $http.post(urlToUse).success(function (data) {
                   deferred.resolve(data);
