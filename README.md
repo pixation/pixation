@@ -17,3 +17,15 @@
 * Run `cp pixation/settings_secret.py.template pixation/settings_secret.py`
 * Add correct database and other settings in `settings_secret.py`
 
+### Deploying the Server
+
+* Build the database, assuming your settings are correct
+    ```shell
+    python manage.py makemigrations
+    python manage.py migrate
+    ```
+
+* Run the server by using the following shell command
+    ```shell
+    python manage.py runserver
+    ```
