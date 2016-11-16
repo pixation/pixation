@@ -8,8 +8,9 @@
     ```
 * Now run the following to complete virtual environment Setup
     ```shell
-    virtualenv -p python3.5 venv
+    virtualenv -p python3 venv
     source venv/bin/activate
+    # move to the pixation directory
     pip install -r requirements.txt
     ```
 ### Setting up private settings
