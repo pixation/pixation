@@ -22,7 +22,7 @@
 
 * Build the database, assuming your settings are correct
     ```shell
-    python manage.py makemigrations
+    python manage.py makemigrations tables
     python manage.py migrate
     ```
 
